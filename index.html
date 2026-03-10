@@ -1,0 +1,2125 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>보딩펫스 — 웹사이트 와이어프레임</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800;900&display=swap");
+
+      :root {
+        --mint: #34d399;
+        --mint-light: #ecfdf5;
+        --mint-dark: #059669;
+        --orange: #ff8c42;
+        --orange-light: #fff3e0;
+        --red: #ff6b6b;
+        --purple: #a78bfa;
+        --yellow: #fcd34d;
+        --gray-50: #f9fafb;
+        --gray-100: #f3f4f6;
+        --gray-200: #e5e7eb;
+        --gray-400: #9ca3af;
+        --gray-600: #4b5563;
+        --gray-800: #1f2937;
+        --bg: #fafaf8;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Nunito", sans-serif;
+        background: var(--bg);
+        color: var(--gray-800);
+        min-height: 100vh;
+      }
+
+      /* ─── TOP NAV ─── */
+      .top-nav {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        background: white;
+        border-bottom: 3px solid var(--gray-100);
+        padding: 0 32px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 60px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+      }
+
+      .nav-logo {
+        font-family: "Fredoka One", cursive;
+        font-size: 1.4rem;
+        color: var(--mint-dark);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .nav-logo span {
+        font-size: 1.2rem;
+      }
+
+      .flow-tabs {
+        display: flex;
+        gap: 8px;
+      }
+
+      .tab-btn {
+        padding: 8px 20px;
+        border-radius: 999px;
+        border: 2.5px solid var(--gray-200);
+        background: white;
+        font-family: "Nunito", sans-serif;
+        font-weight: 800;
+        font-size: 0.85rem;
+        cursor: pointer;
+        transition: all 0.18s ease;
+        color: var(--gray-600);
+      }
+      .tab-btn:hover {
+        border-color: var(--mint);
+        color: var(--mint-dark);
+      }
+      .tab-btn.active {
+        background: var(--mint);
+        border-color: var(--mint);
+        color: white;
+        box-shadow: 0 3px 0 var(--mint-dark);
+      }
+      .tab-btn.active.orange {
+        background: var(--orange);
+        border-color: var(--orange);
+        box-shadow: 0 3px 0 #c46a1a;
+      }
+      .tab-btn.active.purple {
+        background: var(--purple);
+        border-color: var(--purple);
+        box-shadow: 0 3px 0 #7c3aed;
+      }
+
+      .nav-hint {
+        font-size: 0.78rem;
+        color: var(--gray-400);
+        font-weight: 700;
+      }
+
+      /* ─── LAYOUT ─── */
+      .workspace {
+        display: none;
+        padding: 32px;
+        gap: 24px;
+        animation: fadeIn 0.25s ease;
+      }
+      .workspace.active {
+        display: flex;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(6px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* ─── FLOW HEADER ─── */
+      .flow-header {
+        margin-bottom: 8px;
+      }
+      .flow-title {
+        font-family: "Fredoka One", cursive;
+        font-size: 1.5rem;
+        margin-bottom: 4px;
+      }
+      .flow-desc {
+        font-size: 0.88rem;
+        color: var(--gray-400);
+        font-weight: 600;
+      }
+
+      /* ─── FLOW TRACK ─── */
+      .flow-track {
+        display: flex;
+        align-items: flex-start;
+        gap: 0;
+        overflow-x: auto;
+        padding-bottom: 16px;
+      }
+
+      /* ─── SCREEN CARD ─── */
+      .screen-card {
+        flex-shrink: 0;
+        width: 220px;
+        cursor: pointer;
+        transition: transform 0.18s ease;
+      }
+      .screen-card:hover {
+        transform: translateY(-4px);
+      }
+      .screen-card.selected .phone-frame {
+        box-shadow:
+          0 0 0 3px var(--mint),
+          0 12px 32px rgba(52, 211, 153, 0.25);
+      }
+
+      /* connector arrow */
+      .connector {
+        flex-shrink: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 0 4px;
+        margin-top: 80px;
+        gap: 3px;
+      }
+      .connector-line {
+        width: 32px;
+        height: 2.5px;
+        background: var(--gray-200);
+        border-radius: 2px;
+      }
+      .connector-arrow {
+        width: 0;
+        height: 0;
+        border-top: 7px solid transparent;
+        border-bottom: 7px solid transparent;
+        border-left: 10px solid var(--gray-200);
+      }
+      .connector.mint .connector-line {
+        background: var(--mint);
+      }
+      .connector.mint .connector-arrow {
+        border-left-color: var(--mint);
+      }
+      .connector.orange .connector-line {
+        background: var(--orange);
+      }
+      .connector.orange .connector-arrow {
+        border-left-color: var(--orange);
+      }
+      .connector.purple .connector-line {
+        background: var(--purple);
+      }
+      .connector.purple .connector-arrow {
+        border-left-color: var(--purple);
+      }
+
+      .connector-label {
+        font-size: 0.62rem;
+        font-weight: 800;
+        color: var(--gray-400);
+        text-align: center;
+        margin-top: 4px;
+        white-space: nowrap;
+        letter-spacing: 0.3px;
+      }
+
+      /* phone mockup */
+      .phone-frame {
+        width: 220px;
+        height: 390px;
+        background: white;
+        border-radius: 32px;
+        border: 3px solid var(--gray-200);
+        overflow: hidden;
+        position: relative;
+        box-shadow:
+          0 4px 0 var(--gray-200),
+          0 8px 20px rgba(0, 0, 0, 0.08);
+        transition: box-shadow 0.18s ease;
+      }
+      .phone-notch {
+        width: 80px;
+        height: 20px;
+        background: var(--gray-800);
+        border-radius: 0 0 14px 14px;
+        margin: 0 auto;
+        display: block;
+      }
+      .phone-inner {
+        padding: 8px 12px 12px;
+        height: calc(100% - 20px);
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .screen-label {
+        margin-top: 10px;
+        font-weight: 800;
+        font-size: 0.8rem;
+        text-align: center;
+        color: var(--gray-600);
+      }
+      .screen-step {
+        font-size: 0.7rem;
+        font-weight: 700;
+        text-align: center;
+        color: var(--gray-400);
+        margin-bottom: 2px;
+      }
+
+      /* ─── WIREFRAME UI PRIMITIVES ─── */
+      .wf-bar {
+        height: 10px;
+        border-radius: 99px;
+        background: var(--gray-100);
+      }
+      .wf-bar.dark {
+        background: var(--gray-200);
+      }
+      .wf-bar.accent {
+        background: var(--mint);
+      }
+      .wf-bar.orange {
+        background: var(--orange);
+      }
+      .wf-bar.purple {
+        background: var(--purple);
+      }
+      .wf-bar.red {
+        background: var(--red);
+      }
+      .wf-bar.w100 {
+        width: 100%;
+      }
+      .wf-bar.w80 {
+        width: 80%;
+      }
+      .wf-bar.w60 {
+        width: 60%;
+      }
+      .wf-bar.w40 {
+        width: 40%;
+      }
+      .wf-bar.w30 {
+        width: 30%;
+      }
+      .wf-bar.thin {
+        height: 6px;
+      }
+      .wf-bar.thick {
+        height: 14px;
+      }
+
+      .wf-box {
+        border-radius: 12px;
+        background: var(--gray-100);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.65rem;
+        font-weight: 800;
+        color: var(--gray-400);
+        letter-spacing: 0.5px;
+        text-align: center;
+      }
+      .wf-box.accent {
+        background: var(--mint-light);
+        color: var(--mint-dark);
+        border: 1.5px solid var(--mint);
+      }
+      .wf-box.orange {
+        background: var(--orange-light);
+        color: #c46a1a;
+        border: 1.5px solid var(--orange);
+      }
+      .wf-box.purple {
+        background: #f3f0ff;
+        color: #7c3aed;
+        border: 1.5px solid var(--purple);
+      }
+      .wf-box.red {
+        background: #fff5f5;
+        color: #c0392b;
+        border: 1.5px solid var(--red);
+      }
+      .wf-box.yellow {
+        background: #fffbeb;
+        color: #92400e;
+        border: 1.5px solid var(--yellow);
+      }
+      .wf-box.dark {
+        background: var(--gray-800);
+        color: white;
+      }
+      .wf-box.success {
+        background: #d1fae5;
+        color: var(--mint-dark);
+        border: 2px solid var(--mint);
+      }
+
+      .wf-btn {
+        border-radius: 10px;
+        padding: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.68rem;
+        font-weight: 900;
+        letter-spacing: 0.4px;
+        text-align: center;
+      }
+      .wf-btn.primary {
+        background: var(--mint);
+        color: white;
+        box-shadow: 0 3px 0 var(--mint-dark);
+      }
+      .wf-btn.orange {
+        background: var(--orange);
+        color: white;
+        box-shadow: 0 3px 0 #c46a1a;
+      }
+      .wf-btn.purple {
+        background: var(--purple);
+        color: white;
+        box-shadow: 0 3px 0 #7c3aed;
+      }
+      .wf-btn.ghost {
+        background: white;
+        color: var(--gray-600);
+        border: 2px solid var(--gray-200);
+      }
+      .wf-btn.danger {
+        background: var(--red);
+        color: white;
+        box-shadow: 0 3px 0 #c0392b;
+      }
+
+      .wf-avatar {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: var(--gray-200);
+        flex-shrink: 0;
+      }
+
+      .wf-icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.6rem;
+        margin: 0 auto;
+      }
+
+      .wf-row {
+        display: flex;
+        gap: 6px;
+        align-items: center;
+      }
+      .wf-col {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        flex: 1;
+      }
+      .wf-grid2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 6px;
+      }
+      .wf-spacer {
+        flex: 1;
+      }
+
+      .wf-divider {
+        height: 1px;
+        background: var(--gray-100);
+        margin: 2px 0;
+      }
+
+      .wf-tag {
+        display: inline-flex;
+        align-items: center;
+        padding: 2px 8px;
+        border-radius: 999px;
+        font-size: 0.6rem;
+        font-weight: 800;
+      }
+      .wf-tag.mint {
+        background: var(--mint-light);
+        color: var(--mint-dark);
+      }
+      .wf-tag.orange {
+        background: var(--orange-light);
+        color: #c46a1a;
+      }
+      .wf-tag.purple {
+        background: #f3f0ff;
+        color: #7c3aed;
+      }
+
+      .wf-stars {
+        font-size: 0.75rem;
+        color: var(--yellow);
+        letter-spacing: -1px;
+      }
+
+      /* ─── DETAIL PANEL ─── */
+      .detail-panel {
+        width: 300px;
+        flex-shrink: 0;
+        background: white;
+        border-radius: 20px;
+        padding: 24px;
+        border: 2.5px solid var(--gray-100);
+        box-shadow: 0 4px 0 var(--gray-100);
+        align-self: flex-start;
+        position: sticky;
+        top: 80px;
+      }
+
+      .detail-step-num {
+        font-family: "Fredoka One", cursive;
+        font-size: 3rem;
+        line-height: 1;
+        margin-bottom: 4px;
+      }
+      .detail-step-title {
+        font-weight: 900;
+        font-size: 1rem;
+        margin-bottom: 8px;
+      }
+      .detail-desc {
+        font-size: 0.82rem;
+        color: var(--gray-600);
+        line-height: 1.65;
+        margin-bottom: 16px;
+      }
+
+      .detail-section-title {
+        font-size: 0.72rem;
+        font-weight: 900;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        color: var(--gray-400);
+        margin-bottom: 8px;
+      }
+
+      .detail-item {
+        display: flex;
+        gap: 8px;
+        align-items: flex-start;
+        margin-bottom: 8px;
+        font-size: 0.8rem;
+        line-height: 1.5;
+        color: var(--gray-600);
+      }
+      .detail-item-icon {
+        flex-shrink: 0;
+        margin-top: 1px;
+      }
+
+      .chip {
+        display: inline-flex;
+        padding: 3px 10px;
+        border-radius: 999px;
+        font-size: 0.7rem;
+        font-weight: 800;
+        margin: 2px;
+      }
+      .chip.mint {
+        background: var(--mint-light);
+        color: var(--mint-dark);
+      }
+      .chip.orange {
+        background: var(--orange-light);
+        color: #c46a1a;
+      }
+      .chip.purple {
+        background: #f3f0ff;
+        color: #7c3aed;
+      }
+      .chip.red {
+        background: #fff5f5;
+        color: #c0392b;
+      }
+
+      /* ─── SCROLLABLE FLOW CONTAINER ─── */
+      .flow-scroll-wrap {
+        flex: 1;
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      .flow-section-label {
+        font-size: 0.72rem;
+        font-weight: 900;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        color: var(--gray-400);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .flow-section-label::after {
+        content: "";
+        flex: 1;
+        height: 1.5px;
+        background: var(--gray-100);
+      }
+
+      /* ─── SITE MAP (flow 3) ─── */
+      .sitemap-wrap {
+        flex: 1;
+        overflow-x: auto;
+      }
+
+      /* ─── RESPONSIVE ─── */
+      @media (max-width: 900px) {
+        .workspace {
+          flex-direction: column;
+        }
+        .detail-panel {
+          width: 100%;
+          position: static;
+        }
+        .flow-track {
+          padding-bottom: 12px;
+        }
+        .top-nav {
+          flex-wrap: wrap;
+          height: auto;
+          padding: 10px 16px;
+          gap: 8px;
+        }
+        .nav-hint {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="top-nav">
+      <div class="nav-logo"><span>🐾</span> 보딩펫스</div>
+      <div class="flow-tabs">
+        <button class="tab-btn active" onclick="showFlow('nfc')">
+          ① NFC 방문 인증
+        </button>
+        <button class="tab-btn" onclick="showFlow('write')">② 후기 작성</button>
+        <button class="tab-btn" onclick="showFlow('read')">③ 후기 탐색</button>
+      </div>
+      <div class="nav-hint">화면을 클릭하면 상세 정보가 표시됩니다</div>
+    </nav>
+
+    <!-- ════════════════════════════════════════════════
+     FLOW 1 — NFC 방문 인증
+════════════════════════════════════════════════ -->
+    <div class="workspace active" id="flow-nfc">
+      <div class="flow-scroll-wrap">
+        <div class="flow-header">
+          <div class="flow-title" style="color: var(--mint-dark)">
+            🏷️ NFC 방문 인증 플로우
+          </div>
+          <div class="flow-desc">
+            반려인이 매장에서 NFC 스탠드를 태그하고 펫티켓 서약을 완료하는 전체
+            흐름
+          </div>
+        </div>
+
+        <div class="flow-section-label">반려인 플로우 (모바일 웹)</div>
+
+        <div class="flow-track" id="nfc-track">
+          <!-- STEP 1 : NFC 태그 -->
+          <div
+            class="screen-card selected"
+            onclick="selectScreen('nfc', 0)"
+            data-idx="0"
+          >
+            <div class="screen-step">STEP 1</div>
+            <div class="phone-frame">
+              <div class="phone-notch"></div>
+              <div class="phone-inner">
+                <div style="text-align: center; padding: 8px 0 4px">
+                  <div
+                    class="wf-icon"
+                    style="background: #ecfdf5; font-size: 2rem"
+                  >
+                    📶
+                  </div>
+                </div>
+                <div
+                  class="wf-bar w60 thick dark"
+                  style="margin: 0 auto; border-radius: 8px"
+                ></div>
+                <div
+                  class="wf-bar w40 thin"
+                  style="margin: 0 auto; background: var(--gray-100)"
+                ></div>
+                <div style="height: 8px"></div>
+                <div
+                  class="wf-box accent"
+                  style="height: 100px; flex-direction: column; gap: 6px"
+                >
+                  <span style="font-size: 1.6rem">🐾</span>
+                  <span>NFC 태그 감지중...</span>
+                </div>
+                <div
+                  class="wf-bar w80 thin"
+                  style="margin: 0 auto; background: var(--gray-100)"
+                ></div>
+                <div
+                  class="wf-bar w60 thin"
+                  style="margin: 0 auto; background: var(--gray-100)"
+                ></div>
+                <div style="flex: 1"></div>
+                <div class="wf-btn primary">스마트폰을 스탠드에 가까이</div>
+              </div>
+            </div>
+            <div class="screen-label">NFC 태그 감지</div>
+          </div>
+
+          <div class="connector mint">
+            <div class="wf-row" style="gap: 0">
+              <div class="connector-line"></div>
+              <div class="connector-arrow"></div>
+            </div>
+            <div class="connector-label">자동 웹<br />페이지 열림</div>
+          </div>
+
+          <!-- STEP 2 : 매장 랜딩 -->
+          <div
+            class="screen-card"
+            onclick="selectScreen('nfc', 1)"
+            data-idx="1"
+          >
+            <div class="screen-step">STEP 2</div>
+            <div class="phone-frame">
+              <div class="phone-notch"></div>
+              <div class="phone-inner">
+                <div class="wf-row">
+                  <div
+                    class="wf-avatar"
+                    style="
+                      background: var(--mint-light);
+                      font-size: 1.1rem;
+                      display: flex;
+                      align-items: center;
+                      justify-content: center;
+                    "
+                  >
+                    🏠
+                  </div>
+                  <div class="wf-col">
+                    <div class="wf-bar w80 dark"></div>
+                    <div class="wf-bar w50 thin"></div>
+                  </div>
+                  <div class="wf-tag mint">인증 업장</div>
+                </div>
+                <div class="wf-divider"></div>
+                <div
+                  class="wf-box"
+                  style="
+                    height: 72px;
+                    flex-direction: column;
+                    gap: 4px;
+                    background: var(--gray-50);
+                  "
+                >
+                  <span style="font-size: 0.6rem; color: var(--gray-400)"
+                    >매장 사진</span
+                  >
+                </div>
+                <div class="wf-bar w80 dark thick"></div>
+                <div class="wf-bar w60 thin"></div>
+                <div class="wf-grid2">
+                  <div
+                    class="wf-tag mint"
+                    style="justify-content: center; padding: 4px"
+                  >
+                    🐕 반려견 가능
+                  </div>
+                  <div
+                    class="wf-tag orange"
+                    style="justify-content: center; padding: 4px"
+                  >
+                    🍵 카페
+                  </div>
+                </div>
+                <div class="wf-bar w80 thin"></div>
+                <div style="flex: 1"></div>
+                <div class="wf-btn primary">방문 인증 시작하기 🐾</div>
+              </div>
+            </div>
+            <div class="screen-label">매장 랜딩 페이지</div>
+          </div>
+
+          <div class="connector mint">
+            <div class="wf-row" style="gap: 0">
+              <div class="connector-line"></div>
+              <div class="connector-arrow"></div>
+            </div>
+            <div class="connector-label">버튼 탭</div>
+          </div>
+
+          <!-- STEP 3 : 반려동물 정보 -->
+          <div
+            class="screen-card"
+            onclick="selectScreen('nfc', 2)"
+            data-idx="2"
+          >
+            <div class="screen-step">STEP 3</div>
+            <div class="phone-frame">
+              <div class="phone-notch"></div>
+              <div class="phone-inner">
+                <div class="wf-bar w60 thick dark"></div>
+                <div class="wf-bar w80 thin"></div>
+                <div class="wf-divider"></div>
+                <div
+                  class="wf-box"
+                  style="
+                    height: 60px;
+                    background: var(--gray-50);
+                    flex-direction: column;
+                    gap: 3px;
+                  "
+                >
+                  <span style="font-size: 1.2rem">🐶</span>
+                  <span style="font-size: 0.6rem; color: var(--gray-400)"
+                    >반려동물 정보</span
+                  >
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 5px">
+                  <div
+                    class="wf-box"
+                    style="
+                      height: 28px;
+                      background: white;
+                      border: 1.5px solid var(--gray-200);
+                      justify-content: flex-start;
+                      padding: 0 10px;
+                      font-size: 0.62rem;
+                      color: var(--gray-400);
+                    "
+                  >
+                    이름
+                  </div>
+                  <div
+                    class="wf-box"
+                    style="
+                      height: 28px;
+                      background: white;
+                      border: 1.5px solid var(--gray-200);
+                      justify-content: flex-start;
+                      padding: 0 10px;
+                      font-size: 0.62rem;
+                      color: var(--gray-400);
+                    "
+                  >
+                    품종
+                  </div>
+                  <div
+                    class="wf-box"
+                    style="
+                      height: 28px;
+                      background: white;
+                      border: 1.5px solid var(--gray-200);
+                      justify-content: flex-start;
+                      padding: 0 10px;
+                      font-size: 0.62rem;
+                      color: var(--gray-400);
+                    "
+                  >
+                    예방접종 완료 여부
+                  </div>
+                </div>
+                <div
+                  class="wf-box accent"
+                  style="height: 28px; font-size: 0.65rem"
+                >
+                  📎 예방접종 증명서 첨부
+                </div>
+                <div style="flex: 1"></div>
+                <div class="wf-btn primary">다음 — 펫티켓 서약</div>
+              </div>
+            </div>
+            <div class="screen-label">반려동물 정보 입력</div>
+          </div>
+
+          <div class="connector mint">
+            <div class="wf-row" style="gap: 0">
+              <div class="connector-line"></div>
+              <div class="connector-arrow"></div>
+            </div>
+            <div class="connector-label">입력 완료</div>
+          </div>
+
+          <!-- STEP 4 : 펫티켓 서약 -->
+          <div
+            class="screen-card"
+            onclick="selectScreen('nfc', 3)"
+            data-idx="3"
+          >
+            <div class="screen-step">STEP 4</div>
+            <div class="phone-frame">
+              <div class="phone-notch"></div>
+              <div class="phone-inner">
+                <div class="wf-bar w70 thick dark" style="width: 70%"></div>
+                <div class="wf-bar w40 thin"></div>
+                <div class="wf-divider"></div>
+                <div
+                  class="wf-box"
+                  style="
+                    height: 140px;
+                    background: var(--gray-50);
+                    flex-direction: column;
+                    gap: 6px;
+                    font-size: 0.62rem;
+                    padding: 10px;
+                    text-align: left;
+                    align-items: flex-start;
+                    color: var(--gray-400);
+                  "
+                >
+                  <div class="wf-bar w80 thin dark"></div>
+                  <div class="wf-bar w100 thin dark"></div>
+                  <div class="wf-bar w90 thin dark" style="width: 90%"></div>
+                  <div class="wf-bar w70 thin dark" style="width: 70%"></div>
+                  <div style="height: 4px"></div>
+                  <div class="wf-bar w100 thin dark"></div>
+                  <div class="wf-bar w80 thin dark"></div>
+                  <div class="wf-bar w60 thin dark" style="width: 60%"></div>
+                </div>
+                <div class="wf-row" style="gap: 8px; align-items: center">
+                  <div
+                    style="
+                      width: 16px;
+                      height: 16px;
+                      border-radius: 4px;
+                      border: 2.5px solid var(--mint);
+                      background: var(--mint);
+                      display: flex;
+                      align-items: center;
+                      justify-content: center;
+                      font-size: 0.7rem;
+                      color: white;
+                      flex-shrink: 0;
+                    "
+                  >
+                    ✓
+                  </div>
+                  <div class="wf-bar w80 thin dark"></div>
+                </div>
+                <div style="flex: 1"></div>
+                <div class="wf-btn primary">서약하고 인증 완료</div>
+              </div>
+            </div>
+            <div class="screen-label">펫티켓 서약서</div>
+          </div>
+
+          <div class="connector mint">
+            <div class="wf-row" style="gap: 0">
+              <div class="connector-line"></div>
+              <div class="connector-arrow"></div>
+            </div>
+            <div class="connector-label">서약 동의</div>
+          </div>
+
+          <!-- STEP 5 : 인증 완료 -->
+          <div
+            class="screen-card"
+            onclick="selectScreen('nfc', 4)"
+            data-idx="4"
+          >
+            <div class="screen-step">STEP 5</div>
+            <div class="phone-frame">
+              <div class="phone-notch"></div>
+              <div
+                class="phone-inner"
+                style="justify-content: center; align-items: center; gap: 12px"
+              >
+                <div
+                  class="wf-box success"
+                  style="
+                    width: 80px;
+                    height: 80px;
+                    border-radius: 50%;
+                    font-size: 2rem;
+                  "
+                >
+                  ✓
+                </div>
+                <div
+                  class="wf-bar w60 thick"
+                  style="background: var(--mint); border-radius: 8px"
+                ></div>
+                <div class="wf-bar w80 thin"></div>
+                <div class="wf-bar w70 thin" style="width: 70%"></div>
+                <div style="height: 4px"></div>
+                <div
+                  class="wf-box"
+                  style="
+                    height: 48px;
+                    width: 100%;
+                    background: #f0fdf4;
+                    border: 1.5px solid var(--mint);
+                    color: var(--mint-dark);
+                    font-size: 0.62rem;
+                    flex-direction: column;
+                    gap: 3px;
+                  "
+                >
+                  <span>타임스탬프 로그 저장 완료</span>
+                  <span style="font-size: 0.55rem; color: var(--gray-400)"
+                    >2026.03.10 14:32:05 KST</span
+                  >
+                </div>
+                <div style="flex: 1"></div>
+                <div class="wf-btn ghost" style="width: 100%">
+                  후기 작성하기 ✍️
+                </div>
+              </div>
+            </div>
+            <div class="screen-label">인증 완료 🎉</div>
+          </div>
+        </div>
+        <!-- /flow-track -->
+
+        <!-- 업장 관리 파트 -->
+        <div class="flow-section-label" style="margin-top: 8px">
+          업장(가맹점) 관리 화면
+        </div>
+        <div class="flow-track">
+          <div
+            class="screen-card"
+            onclick="selectScreen('nfc', 5)"
+            data-idx="5"
+          >
+            <div class="screen-step">업장 대시보드</div>
+            <div class="phone-frame">
+              <div class="phone-notch"></div>
+              <div class="phone-inner">
+                <div class="wf-row">
+                  <div class="wf-bar w50 thick dark"></div>
+                  <div style="flex: 1"></div>
+                  <div class="wf-tag mint">오늘 인증 12건</div>
+                </div>
+                <div class="wf-divider"></div>
+                <div class="wf-grid2" style="gap: 6px">
+                  <div
+                    class="wf-box accent"
+                    style="height: 52px; flex-direction: column"
+                  >
+                    <span
+                      style="
+                        font-size: 1rem;
+                        font-weight: 900;
+                        color: var(--mint-dark);
+                      "
+                      >38</span
+                    >
+                    <span style="font-size: 0.58rem">이번달 인증</span>
+                  </div>
+                  <div
+                    class="wf-box orange"
+                    style="height: 52px; flex-direction: column"
+                  >
+                    <span
+                      style="font-size: 1rem; font-weight: 900; color: #c46a1a"
+                      >1,900원</span
+                    >
+                    <span style="font-size: 0.58rem">이번달 과금</span>
+                  </div>
+                </div>
+                <div class="wf-bar w80 dark"></div>
+                <div style="display: flex; flex-direction: column; gap: 4px">
+                  <div class="wf-row">
+                    <div
+                      class="wf-bar w30 thin"
+                      style="background: var(--mint)"
+                    ></div>
+                    <div class="wf-bar w60 thin" style="flex: 1"></div>
+                    <div class="wf-tag mint" style="font-size: 0.55rem">
+                      앱 가입자
+                    </div>
+                  </div>
+                  <div class="wf-row">
+                    <div
+                      class="wf-bar w20 thin"
+                      style="width: 20%; background: var(--orange)"
+                    ></div>
+                    <div class="wf-bar w60 thin" style="flex: 1"></div>
+                    <div class="wf-tag orange" style="font-size: 0.55rem">
+                      비앱
+                    </div>
+                  </div>
+                </div>
+                <div class="wf-divider"></div>
+                <div
+                  style="
+                    font-size: 0.6rem;
+                    font-weight: 800;
+                    color: var(--gray-400);
+                  "
+                >
+                  최근 방문 인증 로그
+                </div>
+                <div class="wf-row">
+                  <div
+                    class="wf-avatar"
+                    style="
+                      width: 22px;
+                      height: 22px;
+                      font-size: 0.7rem;
+                      display: flex;
+                      align-items: center;
+                      justify-content: center;
+                      background: var(--mint-light);
+                    "
+                  >
+                    🐩
+                  </div>
+                  <div class="wf-col" style="gap: 2px">
+                    <div class="wf-bar w70 thin dark"></div>
+                    <div class="wf-bar w40 thin"></div>
+                  </div>
+                  <div style="font-size: 0.55rem; color: var(--gray-400)">
+                    14:32
+                  </div>
+                </div>
+                <div class="wf-row">
+                  <div
+                    class="wf-avatar"
+                    style="
+                      width: 22px;
+                      height: 22px;
+                      font-size: 0.7rem;
+                      display: flex;
+                      align-items: center;
+                      justify-content: center;
+                      background: #fff3e0;
+                    "
+                  >
+                    🦮
+                  </div>
+                  <div class="wf-col" style="gap: 2px">
+                    <div class="wf-bar w60 thin dark" style="width: 60%"></div>
+                    <div class="wf-bar w40 thin"></div>
+                  </div>
+                  <div style="font-size: 0.55rem; color: var(--gray-400)">
+                    13:15
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="screen-label">업장 관리 대시보드</div>
+          </div>
+        </div>
+      </div>
+      <!-- /flow-scroll-wrap -->
+
+      <!-- Detail Panel (NFC) -->
+      <div class="detail-panel" id="nfc-detail">
+        <div class="detail-step-num" style="color: var(--mint)">01</div>
+        <div class="detail-step-title">NFC 태그 감지</div>
+        <div class="detail-desc">
+          반려인이 스마트폰을 NFC 스탠드에 가까이 대면 별도 앱 없이 웹
+          브라우저가 자동으로 열립니다.
+        </div>
+        <div class="detail-section-title">UI 구성 요소</div>
+        <div class="detail-item">
+          <span class="detail-item-icon">📶</span
+          ><span>NFC 감지 중 애니메이션 화면</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-item-icon">🌐</span
+          ><span>앱 설치 없이 웹 브라우저에서 즉시 실행</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-item-icon">🔗</span
+          ><span>매장 고유 URL 자동 로드 (장소 ID 포함)</span>
+        </div>
+        <div style="height: 16px"></div>
+        <div class="detail-section-title">핵심 기술</div>
+        <div>
+          <span class="chip mint">NFC Web API</span
+          ><span class="chip orange">Antigraphy</span
+          ><span class="chip purple">URL 파라미터</span>
+        </div>
+        <div style="height: 16px"></div>
+        <div class="detail-section-title">과금 기준</div>
+        <div class="detail-item">
+          <span class="detail-item-icon">💳</span
+          ><span>서약 완료 시 업장에 과금 발생 (50원 or 100원)</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-item-icon">🎁</span><span>반려인에게는 무료</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════
+     FLOW 2 — 후기 작성
+════════════════════════════════════════════════ -->
+    <div class="workspace" id="flow-write" style="display: none">
+      <div class="flow-scroll-wrap">
+        <div class="flow-header">
+          <div class="flow-title" style="color: var(--orange)">
+            ✍️ 후기 작성 플로우
+          </div>
+          <div class="flow-desc">
+            NFC 방문 인증 완료자만 접근 가능한 검증된 후기 작성 흐름
+          </div>
+        </div>
+
+        <div class="flow-section-label">방문 인증 완료 후 → 후기 작성</div>
+
+        <div class="flow-track">
+          <!-- W1: 후기 작성 진입 -->
+          <div
+            class="screen-card selected"
+            onclick="selectScreen('write', 0)"
+            data-idx="0"
+          >
+            <div class="screen-step">STEP 1</div>
+            <div class="phone-frame">
+              <div class="phone-notch"></div>
+              <div class="phone-inner">
+                <div class="wf-row">
+                  <div class="wf-bar w50 thick dark"></div>
+                  <div style="flex: 1"></div>
+                  <div class="wf-tag mint">✓ 방문 인증됨</div>
+                </div>
+                <div
+                  class="wf-box accent"
+                  style="height: 60px; flex-direction: column; gap: 4px"
+                >
+                  <span style="font-size: 1rem">📝</span>
+                  <span>오늘 방문 어떠셨나요?</span>
+                </div>
+                <div class="wf-bar w80 dark"></div>
+                <div class="wf-bar w60 thin"></div>
+                <div style="flex: 1"></div>
+                <div class="wf-btn orange">후기 작성하기</div>
+                <div class="wf-btn ghost" style="font-size: 0.62rem">
+                  나중에 작성하기
+                </div>
+              </div>
+            </div>
+            <div class="screen-label">후기 작성 유도</div>
+          </div>
+
+          <div class="connector orange">
+            <div class="wf-row" style="gap: 0">
+              <div class="connector-line"></div>
+              <div class="connector-arrow"></div>
+            </div>
+            <div class="connector-label">작성 버튼<br />탭</div>
+          </div>
+
+          <!-- W2: 별점 + 사진 -->
+          <div
+            class="screen-card"
+            onclick="selectScreen('write', 1)"
+            data-idx="1"
+          >
+            <div class="screen-step">STEP 2</div>
+            <div class="phone-frame">
+              <div class="phone-notch"></div>
+              <div class="phone-inner">
+                <div class="wf-bar w60 thick dark"></div>
+                <div class="wf-divider"></div>
+                <div
+                  class="wf-box"
+                  style="height: 20px; background: transparent; gap: 4px"
+                >
+                  <span style="font-size: 1.4rem; color: var(--yellow)"
+                    >★★★★★</span
+                  >
+                </div>
+                <div class="wf-bar w40 thin" style="margin: 0 auto"></div>
+                <div class="wf-divider"></div>
+                <div
+                  style="
+                    font-size: 0.62rem;
+                    font-weight: 800;
+                    color: var(--gray-400);
+                    margin-bottom: 4px;
+                  "
+                >
+                  사진 첨부 (선택)
+                </div>
+                <div class="wf-grid2">
+                  <div
+                    class="wf-box"
+                    style="height: 52px; background: var(--gray-50)"
+                  >
+                    <span style="font-size: 1.2rem; opacity: 0.4">📷</span>
+                  </div>
+                  <div
+                    class="wf-box"
+                    style="height: 52px; background: var(--gray-50)"
+                  >
+                    <span style="font-size: 1.2rem; opacity: 0.4">+</span>
+                  </div>
+                </div>
+                <div style="flex: 1"></div>
+                <div class="wf-btn orange">다음</div>
+              </div>
+            </div>
+            <div class="screen-label">별점 & 사진</div>
+          </div>
+
+          <div class="connector orange">
+            <div class="wf-row" style="gap: 0">
+              <div class="connector-line"></div>
+              <div class="connector-arrow"></div>
+            </div>
+            <div class="connector-label">다음</div>
+          </div>
+
+          <!-- W3: 텍스트 후기 + 태그 -->
+          <div
+            class="screen-card"
+            onclick="selectScreen('write', 2)"
+            data-idx="2"
+          >
+            <div class="screen-step">STEP 3</div>
+            <div class="phone-frame">
+              <div class="phone-notch"></div>
+              <div class="phone-inner">
+                <div class="wf-bar w70 thick dark" style="width: 70%"></div>
+                <div class="wf-divider"></div>
+                <div
+                  class="wf-box"
+                  style="
+                    height: 90px;
+                    background: var(--gray-50);
+                    align-items: flex-start;
+                    padding: 8px;
+                    font-size: 0.6rem;
+                    color: var(--gray-400);
+                  "
+                >
+                  자유롭게 후기를 작성해 주세요...
+                </div>
+                <div
+                  style="
+                    font-size: 0.62rem;
+                    font-weight: 800;
+                    color: var(--gray-400);
+                    margin-bottom: 4px;
+                  "
+                >
+                  방문 태그 선택
+                </div>
+                <div style="display: flex; flex-wrap: wrap; gap: 4px">
+                  <div class="wf-tag mint">🐕 대형견 가능</div>
+                  <div class="wf-tag orange">☕ 테라스 있음</div>
+                  <div class="wf-tag purple">🚗 주차 가능</div>
+                  <div class="wf-tag mint" style="opacity: 0.4">+ 더보기</div>
+                </div>
+                <div class="wf-bar w60 thin"></div>
+                <div style="flex: 1"></div>
+                <div class="wf-btn orange">후기 등록하기</div>
+              </div>
+            </div>
+            <div class="screen-label">후기 내용 & 태그</div>
+          </div>
+
+          <div class="connector orange">
+            <div class="wf-row" style="gap: 0">
+              <div class="connector-line"></div>
+              <div class="connector-arrow"></div>
+            </div>
+            <div class="connector-label">등록</div>
+          </div>
+
+          <!-- W4: 게시 완료 -->
+          <div
+            class="screen-card"
+            onclick="selectScreen('write', 3)"
+            data-idx="3"
+          >
+            <div class="screen-step">STEP 4</div>
+            <div class="phone-frame">
+              <div class="phone-notch"></div>
+              <div
+                class="phone-inner"
+                style="align-items: center; justify-content: center; gap: 10px"
+              >
+                <div style="font-size: 2.2rem">🎉</div>
+                <div
+                  class="wf-bar w60 thick"
+                  style="background: var(--orange); border-radius: 8px"
+                ></div>
+                <div class="wf-bar w80 thin"></div>
+                <div
+                  class="wf-box yellow"
+                  style="height: 40px; width: 100%; font-size: 0.65rem"
+                >
+                  🐾 인증된 방문 후기로 등록됩니다
+                </div>
+                <div class="wf-bar w60 thin"></div>
+                <div style="flex: 1"></div>
+                <div class="wf-btn orange" style="width: 100%">
+                  다른 매장 찾아보기
+                </div>
+                <div
+                  class="wf-btn ghost"
+                  style="width: 100%; font-size: 0.62rem"
+                >
+                  내 후기 보기
+                </div>
+              </div>
+            </div>
+            <div class="screen-label">후기 등록 완료</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="detail-panel" id="write-detail">
+        <div class="detail-step-num" style="color: var(--orange)">01</div>
+        <div class="detail-step-title">후기 작성 진입</div>
+        <div class="detail-desc">
+          NFC 인증 완료 화면에서 자연스럽게 후기 작성으로 연결됩니다. 인증되지
+          않은 사용자는 이 버튼 자체에 접근 불가.
+        </div>
+        <div class="detail-section-title">접근 조건</div>
+        <div class="detail-item">
+          <span class="detail-item-icon">🔒</span
+          ><span>해당 매장 NFC 인증 완료자만 접근 가능</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-item-icon">⏰</span
+          ><span>인증 후 7일 이내 작성 허용 (1회)</span>
+        </div>
+        <div style="height: 16px"></div>
+        <div class="detail-section-title">후기 구성 요소</div>
+        <div>
+          <span class="chip orange">별점 (5점제)</span
+          ><span class="chip mint">사진 첨부</span>
+        </div>
+        <div style="height: 4px"></div>
+        <div>
+          <span class="chip purple">텍스트 후기</span
+          ><span class="chip orange">방문 태그</span>
+        </div>
+        <div style="height: 16px"></div>
+        <div class="detail-section-title">인증 배지</div>
+        <div class="detail-item">
+          <span class="detail-item-icon">✅</span
+          ><span>등록된 후기에 "NFC 방문 인증" 배지 자동 부착</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-item-icon">📍</span
+          ><span>방문 장소·날짜 자동 기록 (타임스탬프 연동)</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════
+     FLOW 3 — 후기 탐색
+════════════════════════════════════════════════ -->
+    <div class="workspace" id="flow-read" style="display: none">
+      <div class="flow-scroll-wrap">
+        <div class="flow-header">
+          <div class="flow-title" style="color: var(--purple)">
+            🔍 후기 탐색 플로우
+          </div>
+          <div class="flow-desc">
+            반려인이 방문 전 매장을 검색하고 인증된 후기를 확인하는 흐름
+          </div>
+        </div>
+
+        <div class="flow-section-label">매장 탐색 → 후기 열람</div>
+
+        <div class="flow-track">
+          <!-- R1: 홈 / 검색 -->
+          <div
+            class="screen-card selected"
+            onclick="selectScreen('read', 0)"
+            data-idx="0"
+          >
+            <div class="screen-step">STEP 1</div>
+            <div class="phone-frame">
+              <div class="phone-notch"></div>
+              <div class="phone-inner">
+                <div class="wf-bar w50 thick dark"></div>
+                <div
+                  class="wf-box"
+                  style="
+                    height: 28px;
+                    background: var(--gray-50);
+                    border: 1.5px solid var(--gray-200);
+                    justify-content: flex-start;
+                    padding: 0 10px;
+                    gap: 6px;
+                  "
+                >
+                  <span style="font-size: 0.7rem">🔍</span>
+                  <div class="wf-bar w60 thin"></div>
+                </div>
+                <div
+                  style="
+                    font-size: 0.62rem;
+                    font-weight: 800;
+                    color: var(--gray-400);
+                    margin-bottom: 4px;
+                  "
+                >
+                  내 근처 인증 업장
+                </div>
+                <div
+                  class="wf-box"
+                  style="
+                    height: 80px;
+                    background: var(--gray-100);
+                    font-size: 0.6rem;
+                    color: var(--gray-400);
+                  "
+                >
+                  🗺️ 지도 뷰
+                </div>
+                <div
+                  style="
+                    font-size: 0.62rem;
+                    font-weight: 800;
+                    color: var(--gray-400);
+                    margin-top: 4px;
+                    margin-bottom: 4px;
+                  "
+                >
+                  추천 업장
+                </div>
+                <div class="wf-row">
+                  <div
+                    class="wf-avatar"
+                    style="
+                      font-size: 1rem;
+                      display: flex;
+                      align-items: center;
+                      justify-content: center;
+                      background: var(--mint-light);
+                    "
+                  >
+                    ☕
+                  </div>
+                  <div class="wf-col" style="gap: 2px">
+                    <div class="wf-bar w70 dark thin"></div>
+                    <div class="wf-stars">★★★★★</div>
+                  </div>
+                  <div class="wf-tag mint" style="font-size: 0.55rem">
+                    인증 38
+                  </div>
+                </div>
+                <div class="wf-row">
+                  <div
+                    class="wf-avatar"
+                    style="
+                      font-size: 1rem;
+                      display: flex;
+                      align-items: center;
+                      justify-content: center;
+                      background: #fff3e0;
+                    "
+                  >
+                    🍽️
+                  </div>
+                  <div class="wf-col" style="gap: 2px">
+                    <div class="wf-bar w60 dark thin" style="width: 60%"></div>
+                    <div class="wf-stars">
+                      ★★★★<span style="color: var(--gray-200)">★</span>
+                    </div>
+                  </div>
+                  <div class="wf-tag orange" style="font-size: 0.55rem">
+                    인증 21
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="screen-label">홈 / 매장 검색</div>
+          </div>
+
+          <div class="connector purple">
+            <div class="wf-row" style="gap: 0">
+              <div class="connector-line"></div>
+              <div class="connector-arrow"></div>
+            </div>
+            <div class="connector-label">매장 탭</div>
+          </div>
+
+          <!-- R2: 매장 상세 -->
+          <div
+            class="screen-card"
+            onclick="selectScreen('read', 1)"
+            data-idx="1"
+          >
+            <div class="screen-step">STEP 2</div>
+            <div class="phone-frame">
+              <div class="phone-notch"></div>
+              <div class="phone-inner">
+                <div
+                  class="wf-box"
+                  style="
+                    height: 72px;
+                    background: var(--gray-100);
+                    font-size: 0.6rem;
+                    color: var(--gray-400);
+                  "
+                >
+                  대표 이미지
+                </div>
+                <div class="wf-bar w70 thick dark" style="width: 70%"></div>
+                <div class="wf-row">
+                  <div class="wf-stars">★★★★★</div>
+                  <div class="wf-bar w20 thin" style="width: 20%"></div>
+                  <div style="font-size: 0.62rem; color: var(--gray-400)">
+                    인증 후기 38개
+                  </div>
+                </div>
+                <div style="display: flex; gap: 4px; flex-wrap: wrap">
+                  <div class="wf-tag mint">🐕 대형견 가능</div>
+                  <div class="wf-tag orange">🌿 테라스</div>
+                  <div class="wf-tag purple">🅿️ 주차</div>
+                </div>
+                <div class="wf-divider"></div>
+                <div class="wf-row">
+                  <div class="wf-bar w50 thin dark" style="flex: 1"></div>
+                  <div class="wf-tag mint" style="font-size: 0.6rem">
+                    🔒 인증 후기만
+                  </div>
+                </div>
+                <div class="wf-row">
+                  <div
+                    class="wf-avatar"
+                    style="
+                      width: 22px;
+                      height: 22px;
+                      font-size: 0.7rem;
+                      display: flex;
+                      align-items: center;
+                      justify-content: center;
+                      background: var(--mint-light);
+                    "
+                  >
+                    🐩
+                  </div>
+                  <div class="wf-col" style="gap: 2px">
+                    <div class="wf-bar w70 thin dark"></div>
+                    <div class="wf-bar w80 thin"></div>
+                  </div>
+                </div>
+                <div style="flex: 1"></div>
+                <div class="wf-btn primary">NFC 방문 인증하기</div>
+              </div>
+            </div>
+            <div class="screen-label">매장 상세 페이지</div>
+          </div>
+
+          <div class="connector purple">
+            <div class="wf-row" style="gap: 0">
+              <div class="connector-line"></div>
+              <div class="connector-arrow"></div>
+            </div>
+            <div class="connector-label">후기 더보기</div>
+          </div>
+
+          <!-- R3: 후기 목록 -->
+          <div
+            class="screen-card"
+            onclick="selectScreen('read', 2)"
+            data-idx="2"
+          >
+            <div class="screen-step">STEP 3</div>
+            <div class="phone-frame">
+              <div class="phone-notch"></div>
+              <div class="phone-inner">
+                <div class="wf-row">
+                  <div class="wf-bar w50 thick dark"></div>
+                  <div style="flex: 1"></div>
+                  <div
+                    class="wf-box"
+                    style="
+                      height: 22px;
+                      width: 60px;
+                      background: var(--gray-100);
+                      font-size: 0.58rem;
+                    "
+                  >
+                    최신순 ▾
+                  </div>
+                </div>
+                <div
+                  class="wf-box accent"
+                  style="height: 18px; font-size: 0.6rem"
+                >
+                  🔒 NFC 인증 방문 후기만 표시됩니다
+                </div>
+
+                <!-- review card 1 -->
+                <div
+                  style="
+                    border: 1.5px solid var(--gray-100);
+                    border-radius: 10px;
+                    padding: 8px;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 4px;
+                  "
+                >
+                  <div class="wf-row">
+                    <div
+                      class="wf-avatar"
+                      style="
+                        width: 24px;
+                        height: 24px;
+                        background: var(--mint-light);
+                        font-size: 0.8rem;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                      "
+                    >
+                      🐩
+                    </div>
+                    <div class="wf-col" style="gap: 1px">
+                      <div
+                        class="wf-bar w50 thin dark"
+                        style="width: 50%"
+                      ></div>
+                      <div class="wf-stars" style="font-size: 0.65rem">
+                        ★★★★★
+                      </div>
+                    </div>
+                    <div class="wf-tag mint" style="font-size: 0.52rem">
+                      ✓ 인증됨
+                    </div>
+                  </div>
+                  <div class="wf-bar w100 thin"></div>
+                  <div class="wf-bar w80 thin"></div>
+                  <div class="wf-bar w60 thin" style="width: 60%"></div>
+                </div>
+
+                <!-- review card 2 -->
+                <div
+                  style="
+                    border: 1.5px solid var(--gray-100);
+                    border-radius: 10px;
+                    padding: 8px;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 4px;
+                  "
+                >
+                  <div class="wf-row">
+                    <div
+                      class="wf-avatar"
+                      style="
+                        width: 24px;
+                        height: 24px;
+                        background: #fff3e0;
+                        font-size: 0.8rem;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                      "
+                    >
+                      🐕
+                    </div>
+                    <div class="wf-col" style="gap: 1px">
+                      <div
+                        class="wf-bar w50 thin dark"
+                        style="width: 50%"
+                      ></div>
+                      <div class="wf-stars" style="font-size: 0.65rem">
+                        ★★★★<span style="color: var(--gray-200)">★</span>
+                      </div>
+                    </div>
+                    <div class="wf-tag mint" style="font-size: 0.52rem">
+                      ✓ 인증됨
+                    </div>
+                  </div>
+                  <div class="wf-bar w100 thin"></div>
+                  <div class="wf-bar w70 thin" style="width: 70%"></div>
+                </div>
+              </div>
+            </div>
+            <div class="screen-label">인증 후기 목록</div>
+          </div>
+
+          <div class="connector purple">
+            <div class="wf-row" style="gap: 0">
+              <div class="connector-line"></div>
+              <div class="connector-arrow"></div>
+            </div>
+            <div class="connector-label">후기 탭</div>
+          </div>
+
+          <!-- R4: 후기 상세 -->
+          <div
+            class="screen-card"
+            onclick="selectScreen('read', 3)"
+            data-idx="3"
+          >
+            <div class="screen-step">STEP 4</div>
+            <div class="phone-frame">
+              <div class="phone-notch"></div>
+              <div class="phone-inner">
+                <div class="wf-row">
+                  <div
+                    class="wf-avatar"
+                    style="
+                      font-size: 1rem;
+                      display: flex;
+                      align-items: center;
+                      justify-content: center;
+                      background: var(--mint-light);
+                    "
+                  >
+                    🐩
+                  </div>
+                  <div class="wf-col">
+                    <div class="wf-bar w60 dark thin" style="width: 60%"></div>
+                    <div class="wf-row" style="gap: 4px">
+                      <div class="wf-stars" style="font-size: 0.65rem">
+                        ★★★★★
+                      </div>
+                      <div style="font-size: 0.55rem; color: var(--gray-400)">
+                        2026.03.10
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="wf-box accent"
+                  style="height: 16px; font-size: 0.58rem"
+                >
+                  ✅ NFC 방문 인증 완료 · 타임스탬프 기록됨
+                </div>
+                <div
+                  class="wf-box"
+                  style="
+                    height: 60px;
+                    background: var(--gray-50);
+                    font-size: 0.6rem;
+                    color: var(--gray-400);
+                  "
+                >
+                  후기 사진
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 3px">
+                  <div class="wf-bar w100 thin dark"></div>
+                  <div class="wf-bar w90 thin dark" style="width: 90%"></div>
+                  <div class="wf-bar w80 thin dark" style="width: 80%"></div>
+                  <div class="wf-bar w60 thin" style="width: 60%"></div>
+                </div>
+                <div style="display: flex; gap: 4px; flex-wrap: wrap">
+                  <div class="wf-tag mint">🐕 대형견과 방문</div>
+                  <div class="wf-tag orange">☕ 테라스 이용</div>
+                </div>
+                <div style="flex: 1"></div>
+                <div class="wf-btn purple">이 매장 방문 인증하기</div>
+              </div>
+            </div>
+            <div class="screen-label">후기 상세 & 인증 배지</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="detail-panel" id="read-detail">
+        <div class="detail-step-num" style="color: var(--purple)">01</div>
+        <div class="detail-step-title">홈 / 매장 검색</div>
+        <div class="detail-desc">
+          위치 기반으로 주변 NFC 인증 가맹 업장을 지도 + 리스트 뷰로 탐색합니다.
+        </div>
+        <div class="detail-section-title">검색 필터</div>
+        <div>
+          <span class="chip purple">위치 기반</span
+          ><span class="chip mint">대형견 가능</span>
+        </div>
+        <div style="height: 4px"></div>
+        <div>
+          <span class="chip orange">테라스 유무</span
+          ><span class="chip purple">별점순</span
+          ><span class="chip mint">인증수 순</span>
+        </div>
+        <div style="height: 16px"></div>
+        <div class="detail-section-title">신뢰도 지표</div>
+        <div class="detail-item">
+          <span class="detail-item-icon">🔒</span
+          ><span>NFC 인증 후기만 별도 표시 — 미인증 후기와 구분</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-item-icon">🏷️</span
+          ><span>인증 건수 = 실제 반려동물 방문 횟수로 매장 활성도 표시</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-item-icon">📍</span
+          ><span>타임스탬프 기록으로 최근 방문 여부 확인 가능</span>
+        </div>
+        <div style="height: 16px"></div>
+        <div class="detail-section-title">전환 유도</div>
+        <div class="detail-item">
+          <span class="detail-item-icon">🎯</span
+          ><span>매장 상세 하단 "방문 인증하기" CTA로 플로우 1 연결</span>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // ── 탭 전환 ──
+      function showFlow(name) {
+        document.querySelectorAll(".workspace").forEach((w) => {
+          w.classList.remove("active");
+          w.style.display = "none";
+        });
+        document
+          .querySelectorAll(".tab-btn")
+          .forEach((b) => b.classList.remove("active"));
+
+        const target = document.getElementById("flow-" + name);
+        target.style.display = "flex";
+        setTimeout(() => target.classList.add("active"), 10);
+
+        const btn = document.querySelector(`[onclick="showFlow('${name}')"]`);
+        btn.classList.add("active");
+        if (name === "write") btn.classList.add("orange");
+        else if (name === "read") btn.classList.add("purple");
+        else btn.classList.remove("orange", "purple");
+
+        // select first screen
+        const firstCard = target.querySelector(".screen-card");
+        if (firstCard) firstCard.click();
+      }
+
+      // ── 화면 선택 & 디테일 패널 업데이트 ──
+      const nfcDetails = [
+        {
+          num: "01",
+          title: "NFC 태그 감지",
+          color: "var(--mint)",
+          desc: "반려인이 스마트폰을 NFC 스탠드에 가까이 대면 별도 앱 없이 웹 브라우저가 자동으로 열립니다.",
+          items: [
+            "📶 NFC 감지 중 풀스크린 애니메이션",
+            "🌐 앱 설치 없이 웹 브라우저 즉시 실행",
+            "🔗 매장 고유 URL 자동 로드 (장소 ID 포함)",
+          ],
+          chips: ["NFC Web API", "Antigraphy", "URL 파라미터"],
+          extra:
+            '<div class="detail-section-title">과금 기준</div><div class="detail-item"><span>💳</span>&nbsp;서약 완료 시 업장에 과금 발생</div><div class="detail-item"><span>🎁</span>&nbsp;반려인에게는 무료</div>',
+        },
+        {
+          num: "02",
+          title: "매장 랜딩 페이지",
+          color: "var(--mint)",
+          desc: "NFC로 도착한 매장 페이지. 업장 정보, 이용 가능한 반려동물 종류, 인증 배지를 보여줍니다.",
+          items: [
+            "🏠 매장명·사진·위치 정보",
+            "🐕 반려동물 동반 조건 (크기 제한 등)",
+            "📋 방문 인증 시작 CTA 버튼",
+          ],
+          chips: ["매장 ID", "인증 현황", "동반 조건"],
+        },
+        {
+          num: "03",
+          title: "반려동물 정보 입력",
+          color: "var(--mint)",
+          desc: "보딩펫스 앱 가입자는 저장된 정보가 자동 입력됩니다. 비앱 방문자는 현장에서 간이 입력.",
+          items: [
+            "🐶 반려동물 이름·품종 입력",
+            "💉 예방접종 증명서 사진 첨부",
+            "🔄 앱 가입자: 저장 정보 자동 불러오기",
+          ],
+          chips: ["AI OCR 인증", "사진 첨부", "자동 완성"],
+        },
+        {
+          num: "04",
+          title: "펫티켓 서약서",
+          color: "var(--mint)",
+          desc: "업장별 맞춤 펫티켓 수칙을 확인하고 서약에 동의합니다. 이 동의가 법적 효력의 핵심입니다.",
+          items: [
+            "📄 업장별 맞춤 펫티켓 수칙 표시 (Claude AI 생성)",
+            "☑️ 전체 동의 체크박스",
+            "⚖️ 서약 내용 타임스탬프와 함께 암호화 저장",
+          ],
+          chips: ["법적 서약", "타임스탬프", "암호화 저장"],
+        },
+        {
+          num: "05",
+          title: "인증 완료",
+          color: "var(--mint)",
+          desc: "인증 완료 화면. 타임스탬프 로그가 저장되었음을 시각적으로 확인하고, 후기 작성으로 연결.",
+          items: [
+            "✅ 인증 완료 시각적 피드백",
+            "🕐 타임스탬프 표시 (업장 분쟁 시 증빙)",
+            "✍️ 후기 작성 유도 버튼",
+          ],
+          chips: ["분쟁 증빙", "후기 연동", "업장 면책"],
+        },
+        {
+          num: "업장",
+          title: "업장 관리 대시보드",
+          color: "var(--mint)",
+          desc: "가맹 업장이 오늘의 인증 건수, 월 정산 금액, 방문 로그를 확인하는 관리 화면.",
+          items: [
+            "📊 오늘·이달 인증 건수",
+            "💰 이달 과금 금액 (월말 정산)",
+            "📋 방문 반려동물 로그 실시간 확인",
+          ],
+          chips: ["업장 전용", "월 정산", "로그 관리"],
+        },
+      ];
+
+      const writeDetails = [
+        {
+          num: "01",
+          title: "후기 작성 진입",
+          color: "var(--orange)",
+          desc: "NFC 인증 완료 화면에서 자연스럽게 후기 작성으로 연결. 인증되지 않은 사용자는 접근 불가.",
+          items: [
+            "🔒 해당 매장 NFC 인증 완료자만 접근",
+            "⏰ 인증 후 7일 이내 작성 허용 (1회)",
+            '💬 "나중에 작성하기" 선택 시 알림 예약',
+          ],
+          chips: ["접근 제한", "인증 연동", "알림 예약"],
+        },
+        {
+          num: "02",
+          title: "별점 & 사진 첨부",
+          color: "var(--orange)",
+          desc: "5점 별점과 사진을 첨부하는 단계. 사진은 선택 사항이지만 첨부 시 추천 가중치 부여.",
+          items: [
+            "⭐ 별점 5점제 (탭 인터랙션)",
+            "📷 사진 최대 3장 첨부 (선택)",
+            '🏆 사진 첨부 시 "생생 후기" 배지 부여',
+          ],
+          chips: ["별점", "사진 첨부", "생생 배지"],
+        },
+        {
+          num: "03",
+          title: "후기 내용 & 태그",
+          color: "var(--orange)",
+          desc: "자유 텍스트 후기와 방문 태그를 선택합니다. 태그는 검색 필터에 연동됩니다.",
+          items: [
+            "✏️ 자유 텍스트 (최소 20자 권장)",
+            "🏷️ 방문 태그 선택 (대형견 가능·테라스 등)",
+            "🔍 태그는 매장 검색 필터에 자동 반영",
+          ],
+          chips: ["텍스트", "태그", "검색 연동"],
+        },
+        {
+          num: "04",
+          title: "등록 완료",
+          color: "var(--orange)",
+          desc: '후기 등록 완료. 자동으로 "NFC 방문 인증" 배지가 붙어 신뢰 후기로 분류됩니다.',
+          items: [
+            "🎉 등록 완료 피드백",
+            '✅ "NFC 방문 인증" 배지 자동 부착',
+            "📍 방문 장소·날짜 자동 기록",
+          ],
+          chips: ["인증 배지", "자동 기록", "신뢰 분류"],
+        },
+      ];
+
+      const readDetails = [
+        {
+          num: "01",
+          title: "홈 / 매장 검색",
+          color: "var(--purple)",
+          desc: "위치 기반으로 주변 NFC 인증 가맹 업장을 지도 + 리스트 뷰로 탐색합니다.",
+          items: [
+            "📍 위치 기반 주변 업장 표시",
+            "🗺️ 지도 뷰 / 리스트 뷰 전환",
+            "⭐ 인증 건수·별점 기반 정렬",
+          ],
+          chips: ["위치 기반", "지도 뷰", "필터"],
+        },
+        {
+          num: "02",
+          title: "매장 상세 페이지",
+          color: "var(--purple)",
+          desc: "매장의 상세 정보, 동반 조건, 인증 후기 요약을 한눈에 확인합니다.",
+          items: [
+            "🏠 매장 대표 사진 & 기본 정보",
+            "🐕 동반 가능 조건 태그",
+            "🔒 인증 후기 건수 & 평균 별점",
+          ],
+          chips: ["매장 정보", "인증 현황", "후기 요약"],
+        },
+        {
+          num: "03",
+          title: "인증 후기 목록",
+          color: "var(--purple)",
+          desc: "NFC 인증 완료된 후기만 모아서 보여주는 목록. 미인증 후기와 명확히 구분됩니다.",
+          items: [
+            "🔒 인증 후기만 표시 (기본값)",
+            "📅 최신순·별점순·추천순 정렬",
+            "🏷️ 태그 필터 (대형견·테라스 등)",
+          ],
+          chips: ["인증 필터", "정렬", "태그 검색"],
+        },
+        {
+          num: "04",
+          title: "후기 상세 & 인증 배지",
+          color: "var(--purple)",
+          desc: "개별 후기 상세 화면. 인증 배지와 타임스탬프가 함께 표시되어 신뢰도를 보장합니다.",
+          items: [
+            "✅ NFC 방문 인증 배지 표시",
+            "🕐 방문 타임스탬프 공개",
+            "📸 사진 & 텍스트 후기 전체 표시",
+          ],
+          chips: ["인증 배지", "타임스탬프", "신뢰도"],
+        },
+      ];
+
+      const allDetails = {
+        nfc: nfcDetails,
+        write: writeDetails,
+        read: readDetails,
+      };
+
+      function selectScreen(flow, idx) {
+        const track =
+          document.getElementById(flow + "-track") ||
+          document.querySelector(`#flow-${flow} .flow-track`);
+
+        document
+          .querySelectorAll(`#flow-${flow} .screen-card`)
+          .forEach((c, i) => {
+            c.classList.toggle("selected", i === idx);
+          });
+
+        const detail = allDetails[flow][idx];
+        if (!detail) return;
+
+        const panel = document.getElementById(flow + "-detail");
+        const chipColors = { nfc: "mint", write: "orange", read: "purple" };
+        const cc = chipColors[flow];
+
+        panel.innerHTML = `
+    <div class="detail-step-num" style="color:${detail.color}">${detail.num}</div>
+    <div class="detail-step-title">${detail.title}</div>
+    <div class="detail-desc">${detail.desc}</div>
+    <div class="detail-section-title">UI 구성 요소</div>
+    ${detail.items.map((i) => `<div class="detail-item"><span>${i.split(" ")[0]}</span>&nbsp;<span>${i.slice(i.indexOf(" ") + 1)}</span></div>`).join("")}
+    <div style="height:12px"></div>
+    <div class="detail-section-title">연관 기능</div>
+    <div>${detail.chips.map((c) => `<span class="chip ${cc}">${c}</span>`).join("")}</div>
+    ${detail.extra || ""}
+  `;
+      }
+
+      // init
+      document
+        .querySelectorAll(`#flow-nfc .screen-card`)[0]
+        ?.classList.add("selected");
+    </script>
+  </body>
+</html>
