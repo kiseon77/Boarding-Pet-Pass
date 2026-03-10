@@ -92,6 +92,11 @@
         color: white;
         box-shadow: 0 3px 0 var(--mint-dark);
       }
+      .tab-btn.active.blue {
+        background: #2563eb;
+        border-color: #2563eb;
+        box-shadow: 0 3px 0 #1d4ed8;
+      }
       .tab-btn.active.orange {
         background: var(--orange);
         border-color: var(--orange);
@@ -532,6 +537,10 @@
         font-weight: 800;
         margin: 2px;
       }
+      .chip.blue {
+        background: #eff6ff;
+        color: #1d4ed8;
+      }
       .chip.mint {
         background: var(--mint-light);
         color: var(--mint-dark);
@@ -609,6 +618,7 @@
     <nav class="top-nav">
       <div class="nav-logo"><span>🐾</span> 보딩펫스</div>
       <div class="flow-tabs">
+        <button class="tab-btn" onclick="showFlow('signup')">⓪ 회원가입</button>
         <button class="tab-btn active" onclick="showFlow('nfc')">
           ① NFC 방문 인증
         </button>
@@ -617,6 +627,264 @@
       </div>
       <div class="nav-hint">화면을 클릭하면 상세 정보가 표시됩니다</div>
     </nav>
+
+    <!-- ════════════════════════════════════════════════
+     FLOW 0 — 회원가입
+════════════════════════════════════════════════ -->
+    <div class="workspace" id="flow-signup" style="display:none">
+      <div class="flow-scroll-wrap">
+        <div class="flow-header">
+          <div class="flow-title" style="color: #2563eb">
+            👤 회원가입 플로우
+          </div>
+          <div class="flow-desc">
+            보딩펫스 최초 가입 시 보호자 정보 · 반려동물 등록 · 예방접종 증명서 업로드까지 원스톱으로 완료
+          </div>
+        </div>
+
+        <div class="flow-section-label">반려인 온보딩 (최초 1회)</div>
+
+        <div class="flow-track" id="signup-track">
+
+          <!-- STEP 1 : 소셜 로그인 -->
+          <div class="screen-card selected" onclick="selectScreen('signup', 0)" data-idx="0">
+            <div class="screen-step">STEP 1</div>
+            <div class="phone-frame">
+              <div class="phone-notch"></div>
+              <div class="phone-inner">
+                <div style="text-align:center; padding: 6px 0 2px">
+                  <div class="wf-icon" style="background:#eff6ff; font-size:2rem">🐾</div>
+                </div>
+                <div class="wf-bar w60 thick dark" style="margin:0 auto; border-radius:8px"></div>
+                <div class="wf-bar w80 thin" style="margin:0 auto; background:var(--gray-100)"></div>
+                <div style="height:6px"></div>
+                <div class="wf-box" style="height:34px; background:#fee2e2; border-radius:8px; gap:6px">
+                  <span style="font-size:0.9rem">🍎</span>
+                  <span style="font-size:0.65rem; font-weight:700; color:#991b1b">Apple로 계속하기</span>
+                </div>
+                <div class="wf-box" style="height:34px; background:#fef9c3; border-radius:8px; gap:6px">
+                  <span style="font-size:0.9rem">🟡</span>
+                  <span style="font-size:0.65rem; font-weight:700; color:#854d0e">카카오로 계속하기</span>
+                </div>
+                <div class="wf-box" style="height:34px; background:#ecfdf5; border-radius:8px; gap:6px">
+                  <span style="font-size:0.9rem">🔵</span>
+                  <span style="font-size:0.65rem; font-weight:700; color:#065f46">네이버로 계속하기</span>
+                </div>
+                <div style="height:4px"></div>
+                <div class="wf-divider"></div>
+                <div class="wf-bar w80 thin" style="margin:0 auto; background:var(--gray-100)"></div>
+                <div style="flex:1"></div>
+                <div class="wf-btn primary" style="background:#2563eb">시작하기</div>
+              </div>
+            </div>
+            <div class="screen-label">소셜 로그인</div>
+          </div>
+
+          <div class="connector" style="color:#2563eb">
+            <div class="wf-row" style="gap:0">
+              <div class="connector-line" style="background:#2563eb"></div>
+              <div class="connector-arrow" style="border-left-color:#2563eb"></div>
+            </div>
+            <div class="connector-label">로그인 완료</div>
+          </div>
+
+          <!-- STEP 2 : 보호자 정보 -->
+          <div class="screen-card" onclick="selectScreen('signup', 1)" data-idx="1">
+            <div class="screen-step">STEP 2</div>
+            <div class="phone-frame">
+              <div class="phone-notch"></div>
+              <div class="phone-inner">
+                <div class="wf-bar w70 thick dark"></div>
+                <div class="wf-bar w50 thin" style="background:var(--gray-100)"></div>
+                <div style="height:4px"></div>
+                <!-- 프로필 사진 -->
+                <div style="display:flex; justify-content:center; margin-bottom:4px">
+                  <div class="wf-avatar" style="width:48px; height:48px; background:#eff6ff; font-size:1.4rem; display:flex; align-items:center; justify-content:center; border-radius:50%; border:2px dashed #93c5fd">👤</div>
+                </div>
+                <!-- 입력 필드들 -->
+                <div style="display:flex; flex-direction:column; gap:5px">
+                  <div class="wf-box" style="height:26px; background:white; border:1.5px solid var(--gray-200); justify-content:flex-start; padding:0 8px; font-size:0.6rem; color:var(--gray-400)">닉네임</div>
+                  <div class="wf-box" style="height:26px; background:white; border:1.5px solid var(--gray-200); justify-content:flex-start; padding:0 8px; font-size:0.6rem; color:var(--gray-400)">연락처 (선택)</div>
+                  <div class="wf-box" style="height:26px; background:#eff6ff; border:1.5px solid #93c5fd; justify-content:flex-start; padding:0 8px; font-size:0.6rem; color:#1d4ed8">📧 이메일 (자동 입력됨)</div>
+                </div>
+                <div class="wf-divider"></div>
+                <!-- 동의 체크 -->
+                <div style="display:flex; flex-direction:column; gap:4px">
+                  <div class="wf-box" style="height:20px; background:var(--gray-50); justify-content:flex-start; gap:5px; padding:0 6px; font-size:0.58rem; color:var(--gray-600)">
+                    <span style="color:var(--mint)">☑</span> 서비스 이용약관 동의 (필수)
+                  </div>
+                  <div class="wf-box" style="height:20px; background:var(--gray-50); justify-content:flex-start; gap:5px; padding:0 6px; font-size:0.58rem; color:var(--gray-600)">
+                    <span style="color:var(--mint)">☑</span> 개인정보 처리방침 동의 (필수)
+                  </div>
+                  <div class="wf-box" style="height:20px; background:var(--gray-50); justify-content:flex-start; gap:5px; padding:0 6px; font-size:0.58rem; color:var(--gray-400)">
+                    <span style="color:var(--gray-300)">☐</span> 마케팅 수신 동의 (선택)
+                  </div>
+                </div>
+                <div style="flex:1"></div>
+                <div class="wf-btn primary" style="background:#2563eb">다음 — 반려동물 등록</div>
+              </div>
+            </div>
+            <div class="screen-label">보호자 정보 입력</div>
+          </div>
+
+          <div class="connector" style="color:#2563eb">
+            <div class="wf-row" style="gap:0">
+              <div class="connector-line" style="background:#2563eb"></div>
+              <div class="connector-arrow" style="border-left-color:#2563eb"></div>
+            </div>
+            <div class="connector-label">입력 완료</div>
+          </div>
+
+          <!-- STEP 3 : 반려동물 등록 -->
+          <div class="screen-card" onclick="selectScreen('signup', 2)" data-idx="2">
+            <div class="screen-step">STEP 3</div>
+            <div class="phone-frame">
+              <div class="phone-notch"></div>
+              <div class="phone-inner">
+                <div class="wf-bar w60 thick dark"></div>
+                <div class="wf-bar w80 thin" style="background:var(--gray-100)"></div>
+                <div style="height:4px"></div>
+                <!-- 반려동물 아바타 -->
+                <div style="display:flex; justify-content:center; margin-bottom:4px">
+                  <div class="wf-avatar" style="width:52px; height:52px; background:#fef3c7; font-size:1.6rem; display:flex; align-items:center; justify-content:center; border-radius:50%; border:2px dashed #f59e0b">🐶</div>
+                </div>
+                <!-- 종 선택 -->
+                <div class="wf-grid2" style="gap:4px">
+                  <div class="wf-tag mint" style="justify-content:center; padding:5px; font-size:0.6rem">🐕 강아지</div>
+                  <div class="wf-box" style="height:24px; background:var(--gray-50); border:1.5px solid var(--gray-200); justify-content:center; font-size:0.6rem; color:var(--gray-400); border-radius:8px">🐈 고양이</div>
+                </div>
+                <!-- 입력 필드들 -->
+                <div style="display:flex; flex-direction:column; gap:4px; margin-top:4px">
+                  <div class="wf-box" style="height:26px; background:white; border:1.5px solid var(--gray-200); justify-content:flex-start; padding:0 8px; font-size:0.6rem; color:var(--gray-400)">이름</div>
+                  <div class="wf-box" style="height:26px; background:white; border:1.5px solid var(--gray-200); justify-content:flex-start; padding:0 8px; font-size:0.6rem; color:var(--gray-400)">품종</div>
+                  <div class="wf-grid2" style="gap:4px">
+                    <div class="wf-box" style="height:26px; background:white; border:1.5px solid var(--gray-200); justify-content:flex-start; padding:0 8px; font-size:0.6rem; color:var(--gray-400)">나이</div>
+                    <div class="wf-box" style="height:26px; background:white; border:1.5px solid var(--gray-200); justify-content:flex-start; padding:0 8px; font-size:0.6rem; color:var(--gray-400)">몸무게(kg)</div>
+                  </div>
+                </div>
+                <!-- 반려동물 추가 버튼 -->
+                <div class="wf-box" style="height:24px; background:var(--gray-50); border:1.5px dashed var(--gray-300); border-radius:8px; font-size:0.6rem; color:var(--gray-400); gap:4px">
+                  <span>+</span> 반려동물 추가 (최대 5마리)
+                </div>
+                <div style="flex:1"></div>
+                <div class="wf-btn primary" style="background:#2563eb">다음 — 예방접종 등록</div>
+              </div>
+            </div>
+            <div class="screen-label">반려동물 등록</div>
+          </div>
+
+          <div class="connector" style="color:#2563eb">
+            <div class="wf-row" style="gap:0">
+              <div class="connector-line" style="background:#2563eb"></div>
+              <div class="connector-arrow" style="border-left-color:#2563eb"></div>
+            </div>
+            <div class="connector-label">정보 저장</div>
+          </div>
+
+          <!-- STEP 4 : 예방접종 증명서 업로드 -->
+          <div class="screen-card" onclick="selectScreen('signup', 3)" data-idx="3">
+            <div class="screen-step">STEP 4</div>
+            <div class="phone-frame">
+              <div class="phone-notch"></div>
+              <div class="phone-inner">
+                <div class="wf-bar w70 thick dark"></div>
+                <div class="wf-bar w90 thin" style="background:var(--gray-100)"></div>
+                <div style="height:4px"></div>
+                <!-- 안내 박스 -->
+                <div class="wf-box accent" style="height:48px; flex-direction:column; gap:3px; background:#eff6ff; border-color:#93c5fd">
+                  <span style="font-size:0.65rem; font-weight:700; color:#1d4ed8">💉 필수 예방접종 안내</span>
+                  <span style="font-size:0.55rem; color:#3b82f6">광견병·종합백신(DHPPL) 증명서 필요</span>
+                </div>
+                <!-- 업로드 영역 -->
+                <div class="wf-box" style="height:72px; background:var(--gray-50); border:2px dashed var(--gray-300); border-radius:12px; flex-direction:column; gap:5px">
+                  <span style="font-size:1.4rem">📎</span>
+                  <span style="font-size:0.58rem; color:var(--gray-400)">사진 촬영 또는 갤러리에서 선택</span>
+                  <div class="wf-tag mint" style="font-size:0.55rem; padding:2px 8px">파일 선택</div>
+                </div>
+                <!-- AI OCR 상태 -->
+                <div class="wf-box" style="height:32px; background:#f0fdf4; border:1.5px solid #86efac; border-radius:8px; gap:6px; justify-content:flex-start; padding:0 8px">
+                  <span style="font-size:0.8rem">🤖</span>
+                  <div style="display:flex; flex-direction:column; gap:1px">
+                    <span style="font-size:0.55rem; font-weight:700; color:#15803d">AI OCR 자동 인식 중...</span>
+                    <span style="font-size:0.5rem; color:#4ade80">접종일·유효기간 자동 추출</span>
+                  </div>
+                </div>
+                <!-- 접종 항목 체크리스트 -->
+                <div style="display:flex; flex-direction:column; gap:3px">
+                  <div class="wf-box" style="height:20px; background:#f0fdf4; border-radius:6px; justify-content:flex-start; gap:5px; padding:0 6px; font-size:0.58rem; color:#15803d">
+                    <span>✅</span> 광견병 (2025.03 접종)
+                  </div>
+                  <div class="wf-box" style="height:20px; background:#f0fdf4; border-radius:6px; justify-content:flex-start; gap:5px; padding:0 6px; font-size:0.58rem; color:#15803d">
+                    <span>✅</span> 종합백신 DHPPL (2025.02)
+                  </div>
+                  <div class="wf-box" style="height:20px; background:#fef9c3; border-radius:6px; justify-content:flex-start; gap:5px; padding:0 6px; font-size:0.58rem; color:#854d0e">
+                    <span>⚠️</span> 켄넬코프 — 미확인
+                  </div>
+                </div>
+                <div style="flex:1"></div>
+                <div class="wf-btn primary" style="background:#2563eb">가입 완료 🎉</div>
+              </div>
+            </div>
+            <div class="screen-label">예방접종 증명서 업로드</div>
+          </div>
+
+          <div class="connector" style="color:#2563eb">
+            <div class="wf-row" style="gap:0">
+              <div class="connector-line" style="background:#2563eb"></div>
+              <div class="connector-arrow" style="border-left-color:#2563eb"></div>
+            </div>
+            <div class="connector-label">가입 완료</div>
+          </div>
+
+          <!-- STEP 5 : 가입 완료 -->
+          <div class="screen-card" onclick="selectScreen('signup', 4)" data-idx="4">
+            <div class="screen-step">STEP 5</div>
+            <div class="phone-frame">
+              <div class="phone-notch"></div>
+              <div class="phone-inner">
+                <div style="flex:1"></div>
+                <div style="text-align:center; padding: 8px 0">
+                  <div class="wf-icon" style="background:#eff6ff; font-size:2.2rem; width:64px; height:64px; margin:0 auto">🎉</div>
+                </div>
+                <div class="wf-bar w70 thick dark" style="margin:0 auto; border-radius:8px"></div>
+                <div class="wf-bar w90 thin" style="margin:0 auto; background:var(--gray-100)"></div>
+                <div style="height:8px"></div>
+                <!-- 프로필 카드 -->
+                <div class="wf-box" style="height:56px; background:#eff6ff; border:1.5px solid #93c5fd; border-radius:12px; gap:8px; justify-content:flex-start; padding:0 10px">
+                  <div class="wf-avatar" style="width:36px; height:36px; background:white; font-size:1.1rem; display:flex; align-items:center; justify-content:center; border-radius:50%">🐶</div>
+                  <div style="display:flex; flex-direction:column; gap:2px">
+                    <div class="wf-bar w60 dark" style="height:6px; border-radius:3px"></div>
+                    <div class="wf-tag mint" style="font-size:0.5rem; padding:1px 6px">예방접종 인증 완료 ✅</div>
+                  </div>
+                </div>
+                <div style="height:6px"></div>
+                <!-- 안내 메시지 -->
+                <div style="display:flex; flex-direction:column; gap:3px">
+                  <div class="wf-box" style="height:20px; background:var(--gray-50); border-radius:6px; justify-content:flex-start; gap:5px; padding:0 6px; font-size:0.55rem; color:var(--gray-600)">
+                    <span>🏷️</span> NFC 태그하면 자동으로 정보 불러와요
+                  </div>
+                  <div class="wf-box" style="height:20px; background:var(--gray-50); border-radius:6px; justify-content:flex-start; gap:5px; padding:0 6px; font-size:0.55rem; color:var(--gray-600)">
+                    <span>💉</span> 매장 방문 시 증명서 재첨부 불필요
+                  </div>
+                </div>
+                <div style="flex:1"></div>
+                <div class="wf-btn primary" style="background:#2563eb">매장 찾아보기 🗺️</div>
+              </div>
+            </div>
+            <div class="screen-label">가입 완료 🎉</div>
+          </div>
+
+        </div><!-- /flow-track -->
+
+        <!-- 디테일 패널 -->
+        <div class="detail-panel" id="signup-detail" style="border-top-color:#2563eb">
+          <div class="detail-step-num" style="color:#2563eb">01</div>
+          <div class="detail-step-title">소셜 로그인</div>
+          <div class="detail-desc">Apple · 카카오 · 네이버 소셜 로그인으로 별도 회원가입 없이 빠르게 시작합니다.</div>
+        </div>
+
+      </div>
+    </div>
 
     <!-- ════════════════════════════════════════════════
      FLOW 1 — NFC 방문 인증
@@ -1890,9 +2158,10 @@
 
         const btn = document.querySelector(`[onclick="showFlow('${name}')"]`);
         btn.classList.add("active");
-        if (name === "write") btn.classList.add("orange");
+        if (name === "signup") btn.classList.add("blue");
+        else if (name === "write") btn.classList.add("orange");
         else if (name === "read") btn.classList.add("purple");
-        else btn.classList.remove("orange", "purple");
+        else btn.classList.remove("blue", "orange", "purple");
 
         // select first screen
         const firstCard = target.querySelector(".screen-card");
@@ -2079,7 +2348,72 @@
         },
       ];
 
+      const signupDetails = [
+        {
+          num: "01",
+          title: "소셜 로그인",
+          color: "#2563eb",
+          desc: "Apple · 카카오 · 네이버 소셜 로그인으로 별도 비밀번호 없이 빠르게 시작합니다. 최초 1회만 진행하면 이후엔 자동 로그인됩니다.",
+          items: [
+            "🍎 Apple ID / 🟡 카카오 / 🔵 네이버 중 선택",
+            "🔒 소셜 OAuth 토큰 기반 인증 (비밀번호 없음)",
+            "📧 소셜 계정 이메일 자동 수집",
+          ],
+          chips: ["소셜 OAuth", "자동 로그인", "보안 토큰"],
+        },
+        {
+          num: "02",
+          title: "보호자 정보 입력",
+          color: "#2563eb",
+          desc: "닉네임과 연락처를 입력하고 서비스 이용약관에 동의합니다. 이메일은 소셜 계정에서 자동 입력됩니다.",
+          items: [
+            "👤 닉네임 설정 (프로필에 표시)",
+            "📱 연락처 입력 (선택, 알림 수신용)",
+            "☑️ 이용약관 · 개인정보 처리방침 동의 (필수)",
+          ],
+          chips: ["프로필", "약관 동의", "마케팅 선택"],
+        },
+        {
+          num: "03",
+          title: "반려동물 등록",
+          color: "#2563eb",
+          desc: "반려동물의 종류 · 이름 · 품종 · 나이 · 몸무게를 등록합니다. 최대 5마리까지 등록 가능하며, NFC 태깅 시 자동으로 불러옵니다.",
+          items: [
+            "🐕 강아지 / 🐈 고양이 중 종류 선택",
+            "🏷️ 이름 · 품종 · 나이 · 몸무게 입력",
+            "➕ 반려동물 최대 5마리 등록 지원",
+          ],
+          chips: ["반려동물 프로필", "다중 등록", "자동 불러오기"],
+        },
+        {
+          num: "04",
+          title: "예방접종 증명서 업로드",
+          color: "#2563eb",
+          desc: "광견병·종합백신 증명서를 사진으로 업로드하면 AI OCR이 접종일과 유효기간을 자동 추출합니다. 한 번 등록하면 이후 NFC 방문 시 재첨부 불필요.",
+          items: [
+            "📎 사진 촬영 또는 갤러리 선택으로 업로드",
+            "🤖 AI OCR로 접종일·유효기간 자동 추출",
+            "✅ 필수 항목 충족 여부 자동 체크 (광견병·종합백신)",
+          ],
+          chips: ["AI OCR", "자동 추출", "유효기간 관리"],
+          extra: '<div class="detail-section-title">필수 접종 항목</div><div class="detail-item"><span>💉</span>&nbsp;광견병 (Rabies)</div><div class="detail-item"><span>💉</span>&nbsp;종합백신 5종 (DHPPL)</div><div class="detail-item"><span>⚠️</span>&nbsp;켄넬코프 — 매장별 요구 상이</div>',
+        },
+        {
+          num: "05",
+          title: "가입 완료",
+          color: "#2563eb",
+          desc: "가입이 완료되면 예방접종 인증 배지가 부여됩니다. 이후 NFC 태그 시 보호자·반려동물 정보가 자동으로 불러와져 매번 입력할 필요가 없습니다.",
+          items: [
+            "🎉 가입 완료 · 예방접종 인증 배지 자동 부여",
+            "🏷️ NFC 태깅 시 저장 정보 자동 연동",
+            "🗺️ 주변 보딩펫스 인증 매장 탐색으로 이동",
+          ],
+          chips: ["인증 배지", "자동 연동", "매장 탐색"],
+        },
+      ];
+
       const allDetails = {
+        signup: signupDetails,
         nfc: nfcDetails,
         write: writeDetails,
         read: readDetails,
@@ -2100,7 +2434,7 @@
         if (!detail) return;
 
         const panel = document.getElementById(flow + "-detail");
-        const chipColors = { nfc: "mint", write: "orange", read: "purple" };
+        const chipColors = { signup: "blue", nfc: "mint", write: "orange", read: "purple" };
         const cc = chipColors[flow];
 
         panel.innerHTML = `
